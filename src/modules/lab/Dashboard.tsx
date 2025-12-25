@@ -7,21 +7,27 @@ import { DashboardStats } from './dashboard/DashboardStats';
 import { ClinicsList } from './clinics/ClinicsList';
 import { PaymentsReport } from '../payments/PaymentsReport';
 import { StaffList } from './staff/StaffList';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 export function Dashboard() {
   const { profile, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<'orders' | 'services' | 'clinics' | 'payments' | 'staff' | 'stats' | 'settings'>('orders');
 
-  const tabs = [
-    { id: 'orders', label: 'Órdenes', icon: Package },
-    { id: 'services', label: 'Servicios', icon: Wrench },
-    { id: 'clinics', label: 'Clínicas', icon: Building2 },
-    { id: 'payments', label: 'Pagos', icon: Wallet },
-    { id: 'staff', label: 'Personal', icon: Users },
-    { id: 'stats', label: 'Estadísticas', icon: BarChart3 },
-    { id: 'settings', label: 'Configuración', icon: Settings },
-  ] as const;
+  const availableTabs = useMemo(() => {
+    const allTabs = [
+      { id: 'orders', label: 'Órdenes', icon: Package, roles: ['super_admin', 'lab_admin', 'lab_staff'] },
+      { id: 'services', label: 'Servicios', icon: Wrench, roles: ['super_admin', 'lab_admin'] },
+      { id: 'clinics', label: 'Clínicas', icon: Building2, roles: ['super_admin', 'lab_admin'] },
+      { id: 'payments', label: 'Pagos', icon: Wallet, roles: ['super_admin', 'lab_admin'] },
+      { id: 'staff', label: 'Personal', icon: Users, roles: ['super_admin', 'lab_admin'] },
+      { id: 'stats', label: 'Estadísticas', icon: BarChart3, roles: ['super_admin', 'lab_admin'] },
+      { id: 'settings', label: 'Configuración', icon: Settings, roles: ['super_admin', 'lab_admin'] },
+    ] as const;
+
+    return allTabs.filter(tab =>
+      tab.roles.includes(profile?.global_role as any)
+    );
+  }, [profile?.global_role]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
@@ -40,7 +46,7 @@ export function Dashboard() {
               </div>
 
               <div className="hidden lg:flex gap-1">
-                {tabs.map((tab, index) => {
+                {availableTabs.map((tab, index) => {
                   const Icon = tab.icon;
                   const isActive = activeTab === tab.id;
                   return (
@@ -80,7 +86,7 @@ export function Dashboard() {
           </div>
 
           <div className="lg:hidden flex gap-2 pb-3 overflow-x-auto scrollbar-thin">
-            {tabs.map((tab) => {
+            {availableTabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               return (
