@@ -9,13 +9,17 @@ Sistema web para la gestión de órdenes de laboratorio dental con Kanban, SLA t
 - **Seguimiento SLA**: Monitorea el tiempo de entrega de cada orden con alertas de vencimiento
 - **Multi-Tenant**: Gestiona múltiples clínicas dentales con aislamiento completo de datos
 - **Sistema de Pagos**: Registra pagos, rastrea saldo pendiente y genera reportes financieros
+- **Gestión de Personal**: Crea y administra usuarios (lab admin, lab staff, clinic admin, clinic staff) desde la interfaz
 - **Gestión de Staff**: Asigna roles específicos (Diseño, Fabricación, Control de Calidad, etc.)
 - **Catálogo de Servicios**: Configura servicios con precios en GTQ y USD
 - **Dashboard BI**: Estadísticas, gráficas y métricas en tiempo real
 - **Multi-moneda**: Soporta Quetzales y Dólares
+- **Notificaciones Email**: Alertas automáticas para órdenes nuevas y completadas
 
-### Para Dentistas (Formulario Público)
-- **Acceso sin login**: Los dentistas pueden enviar órdenes sin necesidad de crear cuenta
+### Para Clínicas Dentales
+- **Registro Automático**: Las clínicas pueden registrarse por su cuenta sin intervención del laboratorio
+- **Portal de Administración**: Clinic admins pueden gestionar su personal y ver sus órdenes
+- **Envío de Órdenes**: Los dentistas pueden enviar órdenes sin necesidad de login
 - **Selector de Clínica**: Selecciona tu clínica registrada o escribe el nombre manualmente
 - **Odontograma Geométrico**: Selección visual de dientes usando notación FDI
 - **Multi-servicio**: Puede solicitar diferentes servicios para diferentes dientes en una sola orden
@@ -38,11 +42,23 @@ src/
 ├── modules/
 │   ├── auth/                # Autenticación
 │   │   ├── AuthContext.tsx
-│   │   └── LoginPage.tsx
+│   │   ├── LoginPage.tsx
+│   │   └── RegisterPage.tsx
 │   ├── lab/                 # Dashboard del laboratorio
-│   │   └── Dashboard.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── clinics/         # Gestión de clínicas
+│   │   ├── dashboard/       # Métricas y estadísticas
+│   │   ├── services/        # Catálogo de servicios
+│   │   ├── settings/        # Configuración del lab
+│   │   └── staff/           # Gestión de personal
 │   ├── lab-orders/          # Gestión de órdenes
-│   │   └── KanbanBoard.tsx
+│   │   ├── KanbanBoard.tsx
+│   │   ├── OrderDetail.tsx
+│   │   └── OrderNotes.tsx
+│   ├── payments/            # Sistema de pagos
+│   │   ├── PaymentModal.tsx
+│   │   ├── PaymentList.tsx
+│   │   └── PaymentsReport.tsx
 │   └── public/              # Formulario público
 │       └── OrderForm.tsx
 └── App.tsx

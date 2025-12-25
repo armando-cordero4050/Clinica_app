@@ -151,8 +151,9 @@
 - ✅ Módulo de clínicas independientes (Fase 6)
 - ✅ Gestión de múltiples clínicas (Fase 6)
 - ✅ Permisos y aislamiento por clínica (Fase 6)
+- ✅ Registro público de clínicas (Fase 8)
+- ✅ Usuarios de clínica desde UI (Fase 8)
 - ❌ Gestión de múltiples laboratorios
-- ❌ Usuarios de clínica desde UI
 - ❌ Dashboard específico por clínica
 
 ### Gestión de Pacientes
@@ -168,10 +169,12 @@
 - ❌ Conversión a orden
 
 ### Sistema de Pagos
-- ❌ Registro de pagos
-- ❌ Métodos de pago
-- ❌ Balance y deudas
-- ❌ Recibos
+- ✅ Registro de pagos (Fase 7)
+- ✅ Métodos de pago (Fase 7)
+- ✅ Balance y deudas (Fase 7)
+- ✅ Reporte de pagos con exportación CSV (Fase 7)
+- ❌ Recibos imprimibles
+- ❌ Integración con gateways de pago
 
 ### Facturación Interna
 - ❌ Generación de facturas clínica → paciente
@@ -201,7 +204,7 @@
 
 ### Configuración Avanzada
 - ✅ CRUD de servicios desde UI (Fase 2)
-- ❌ Gestión de staff desde UI
+- ✅ Gestión de staff desde UI (Fase 8)
 - ✅ Configuración de laboratorio desde UI (Fase 2)
 - ❌ Templates de manufactura configurables
 - ❌ Estados personalizables
@@ -231,7 +234,7 @@
 1. ✅ CRUD de servicios (sin SQL manual)
 2. ✅ Vista detallada de órdenes con notas internas
 3. ✅ Edición de información del laboratorio
-4. ⏳ Gestión de staff desde panel (pendiente)
+4. ✅ Gestión de staff desde panel (Fase 8)
 5. ⏳ Agregar/editar estados del Kanban (pendiente)
 
 ### Fase 3: Comunicaciones Básicas (COMPLETADA)
@@ -273,17 +276,29 @@
 7. ✅ Reporte de pagos con filtros y exportación CSV
 8. ✅ Integración completa en OrderDetail y Dashboard
 
-### Fase 7: Presupuestos (NO IMPLEMENTADA)
+### Fase 8: Registro de Clínicas y Gestión de Personal (COMPLETADA)
+1. ✅ Página de registro público para clínicas
+2. ✅ Formulario completo de clínica + administrador
+3. ✅ Creación automática de clínica y primer usuario
+4. ✅ Edge Function create-staff-user para creación segura
+5. ✅ Módulo de gestión de personal en dashboard
+6. ✅ Creación de usuarios por Lab Admin y Clinic Admin
+7. ✅ Lista de personal con búsqueda y filtros
+8. ✅ Edición y activación/desactivación de usuarios
+9. ✅ Permisos diferenciados por rol
+10. ✅ Integración completa con sistema multi-tenant
+
+### Fase 9: Presupuestos (NO IMPLEMENTADA)
 1. Sistema de presupuestos
 2. Aprobación/rechazo
 3. Conversión a orden
 
-### Fase 7: Integración Odoo
+### Fase 10: Integración Odoo
 1. Edge Function de sincronización
 2. Facturación B2B automática
 3. Logs y monitoreo
 
-### Fase 8: Funcionalidades Avanzadas
+### Fase 11: Funcionalidades Avanzadas
 1. Agenda de citas
 2. Historial clínico completo
 3. Reportes avanzados
@@ -309,30 +324,37 @@ Analytics: Integración custom
 ## 📊 Métricas Actuales
 
 - **Tablas**: 9 principales
-- **Migraciones**: 6 aplicadas
-- **Componentes React**: 12 principales
-- **Rutas**: 2 públicas + 5 tabs en dashboard
+- **Migraciones**: 9 aplicadas
+- **Componentes React**: 15 principales
+- **Rutas**: 3 públicas (login, register, order) + 7 tabs en dashboard
 - **Código TypeScript**: 100% tipado
 - **Seguridad RLS**: 100% implementado
 - **Tests**: 0 (pendiente)
-- **Hooks Personalizados**: 1 (useServices)
+- **Hooks Personalizados**: 2 (useServices, useDashboardStats)
 - **Realtime Subscriptions**: 3 (orders, notes, services)
-- **Edge Functions**: 3 (emails)
+- **Edge Functions**: 4 (emails + create-staff-user)
 - **Database Triggers**: 3 (email notifications)
 
 ## 🚀 Listo para Producción
 
-La versión actual (Fase 3) es totalmente funcional y puede usarse en producción para:
+La versión actual (Fase 8) es totalmente funcional y puede usarse en producción para:
+- **Registro automático de clínicas** sin intervención del laboratorio
 - Recibir órdenes de dentistas a través de formulario público
 - Gestionar el flujo de trabajo interno con Kanban Board
 - Ver detalles completos de cada orden
 - Agregar notas internas para comunicación del equipo
 - Gestionar catálogo de servicios sin necesidad de SQL
+- **Crear y gestionar personal** desde la interfaz (lab y clínica)
 - Configurar información del laboratorio desde la UI
+- **Registrar y rastrear pagos** con múltiples métodos
+- **Reportes de pagos** con exportación CSV
 - Tracking de SLA con alertas visuales
-- Usuarios múltiples del laboratorio con autenticación
+- Usuarios múltiples del laboratorio y clínicas con autenticación
 - Conversión automática de moneda GTQ ↔ USD
 - Actualizaciones en tiempo real con Supabase Realtime
+- **Sistema multi-tenant** con aislamiento de datos por clínica
+- **Dashboard de estadísticas** con métricas en tiempo real
+- **Gestión de archivos** adjuntos (radiografías, fotos)
 - **Notificaciones automáticas por email:**
   - Confirmación al dentista al crear orden
   - Alerta al laboratorio de orden nueva
@@ -342,9 +364,12 @@ La versión actual (Fase 3) es totalmente funcional y puede usarse en producció
 
 1. ✅ ~~**No hay edición desde UI**~~ - RESUELTO en Fase 2
 2. ✅ ~~**Sin emails**~~ - RESUELTO en Fase 3 (requiere configurar Resend.com)
-3. **Sin facturación**: No genera facturas legales
-4. **Sin gestión de staff desde UI**: Usuarios se crean manualmente con SQL
-5. **Sin usuarios de clínica desde UI**: Clínicas deben ser creadas por lab_admin
+3. ✅ ~~**Sin gestión de staff desde UI**~~ - RESUELTO en Fase 8
+4. ✅ ~~**Sin usuarios de clínica desde UI**~~ - RESUELTO en Fase 8 (auto-registro)
+5. ✅ ~~**Sin sistema de pagos**~~ - RESUELTO en Fase 7
+6. **Sin facturación**: No genera facturas legales (PDF)
+7. **Sin presupuestos**: No hay módulo de presupuestos
+8. **Sin integración Odoo**: Facturación B2B manual
 
 ## 📖 Documentación Creada
 
@@ -356,6 +381,7 @@ La versión actual (Fase 3) es totalmente funcional y puede usarse en producció
 - ✅ `docs/dashboard-estadisticas.md` - Guía del dashboard de BI (Fase 4)
 - ✅ `docs/gestion-archivos.md` - Sistema de archivos adjuntos (Fase 5)
 - ✅ `docs/multi-tenant.md` - Sistema multi-tenant (Fase 6)
-- ✅ `docs/sistema-pagos.md` - Sistema de pagos (NUEVO - Fase 7)
+- ✅ `docs/sistema-pagos.md` - Sistema de pagos (Fase 7)
+- ✅ `docs/registro-y-staff.md` - Registro de clínicas y gestión de personal (Fase 8)
 - ✅ `docs/estado-implementacion.md` - Este documento
 - ✅ `docs/PLAN-IMPLEMENTACION.md` - Plan completo de fases
