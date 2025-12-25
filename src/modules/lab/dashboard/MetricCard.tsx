@@ -13,24 +13,20 @@ interface MetricCardProps {
 
 const colorClasses = {
   blue: {
-    bg: 'bg-blue-50',
-    icon: 'text-blue-600',
-    trend: 'text-blue-600',
+    bg: 'from-blue-500 to-blue-600',
+    shadow: 'shadow-blue-500/30',
   },
   green: {
-    bg: 'bg-green-50',
-    icon: 'text-green-600',
-    trend: 'text-green-600',
+    bg: 'from-green-500 to-emerald-600',
+    shadow: 'shadow-green-500/30',
   },
   orange: {
-    bg: 'bg-orange-50',
-    icon: 'text-orange-600',
-    trend: 'text-orange-600',
+    bg: 'from-orange-500 to-amber-600',
+    shadow: 'shadow-orange-500/30',
   },
   red: {
-    bg: 'bg-red-50',
-    icon: 'text-red-600',
-    trend: 'text-red-600',
+    bg: 'from-red-500 to-rose-600',
+    shadow: 'shadow-red-500/30',
   },
 };
 
@@ -38,21 +34,21 @@ export function MetricCard({ title, value, icon: Icon, trend, color = 'blue' }: 
   const colors = colorClasses[color];
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-3xl font-bold text-gray-900">{value}</p>
-          {trend && (
-            <p className={`text-sm mt-2 ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+    <div className="stat-card group">
+      <div className="flex items-center justify-between mb-4">
+        <div className={`w-14 h-14 bg-gradient-to-br ${colors.bg} rounded-2xl flex items-center justify-center shadow-lg ${colors.shadow} group-hover:scale-110 transition-transform duration-300`}>
+          <Icon className="w-7 h-7 text-white" />
+        </div>
+        {trend && (
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-lg ${trend.isPositive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            <span className="text-sm font-bold">
               {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
-            </p>
-          )}
-        </div>
-        <div className={`${colors.bg} p-3 rounded-lg`}>
-          <Icon className={`w-6 h-6 ${colors.icon}`} />
-        </div>
+            </span>
+          </div>
+        )}
       </div>
+      <p className="text-sm font-medium text-slate-600 mb-2">{title}</p>
+      <p className="text-4xl font-bold text-slate-900">{value}</p>
     </div>
   );
 }

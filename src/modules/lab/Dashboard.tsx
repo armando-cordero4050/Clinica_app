@@ -1,5 +1,5 @@
 import { useAuth } from '../auth/AuthContext';
-import { LogOut, Package, Settings, BarChart3, Wrench, Building2, Wallet, Users } from 'lucide-react';
+import { LogOut, Package, Settings, BarChart3, Wrench, Building2, Wallet, Users, Sparkles } from 'lucide-react';
 import { KanbanBoard } from '../lab-orders/KanbanBoard';
 import { ServiceList } from './services/ServiceList';
 import { LaboratorySettings } from './settings/LaboratorySettings';
@@ -13,142 +13,123 @@ export function Dashboard() {
   const { profile, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<'orders' | 'services' | 'clinics' | 'payments' | 'staff' | 'stats' | 'settings'>('orders');
 
+  const tabs = [
+    { id: 'orders', label: 'Órdenes', icon: Package },
+    { id: 'services', label: 'Servicios', icon: Wrench },
+    { id: 'clinics', label: 'Clínicas', icon: Building2 },
+    { id: 'payments', label: 'Pagos', icon: Wallet },
+    { id: 'staff', label: 'Personal', icon: Users },
+    { id: 'stats', label: 'Estadísticas', icon: BarChart3 },
+    { id: 'settings', label: 'Configuración', icon: Settings },
+  ] as const;
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-8">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50">
+      <nav className="glass-card border-b border-slate-200/50 sticky top-0 z-50 backdrop-blur-xl">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 sm:h-20">
+            <div className="flex items-center gap-4 sm:gap-8">
+              <div className="flex items-center gap-3 slide-in">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                  <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-lg font-bold text-slate-900">DentalFlow</h1>
-                  <p className="text-xs text-slate-500">Lab Guatemala</p>
+                  <h1 className="text-lg sm:text-xl font-bold text-gradient">DentalFlow</h1>
+                  <p className="text-xs text-slate-500 hidden sm:block">Lab Guatemala</p>
                 </div>
               </div>
 
-              <div className="hidden md:flex gap-2">
-                <button
-                  onClick={() => setActiveTab('orders')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    activeTab === 'orders'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <Package className="w-4 h-4" />
-                  Órdenes
-                </button>
-                <button
-                  onClick={() => setActiveTab('services')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    activeTab === 'services'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <Wrench className="w-4 h-4" />
-                  Servicios
-                </button>
-                <button
-                  onClick={() => setActiveTab('clinics')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    activeTab === 'clinics'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <Building2 className="w-4 h-4" />
-                  Clínicas
-                </button>
-                <button
-                  onClick={() => setActiveTab('payments')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    activeTab === 'payments'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <Wallet className="w-4 h-4" />
-                  Pagos
-                </button>
-                <button
-                  onClick={() => setActiveTab('staff')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    activeTab === 'staff'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <Users className="w-4 h-4" />
-                  Personal
-                </button>
-                <button
-                  onClick={() => setActiveTab('stats')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    activeTab === 'stats'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <BarChart3 className="w-4 h-4" />
-                  Estadísticas
-                </button>
-                <button
-                  onClick={() => setActiveTab('settings')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-                    activeTab === 'settings'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <Settings className="w-4 h-4" />
-                  Configuración
-                </button>
+              <div className="hidden lg:flex gap-1">
+                {tabs.map((tab, index) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id as any)}
+                      className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all duration-300 slide-in ${
+                        isActive
+                          ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/30 scale-105'
+                          : 'text-slate-600 hover:bg-white hover:text-blue-600 hover:shadow-md'
+                      }`}
+                      style={{ animationDelay: `${index * 0.05}s` }}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span className="hidden xl:inline">{tab.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="text-sm font-medium text-slate-900">{profile?.full_name}</p>
-                <p className="text-xs text-slate-500 capitalize">{profile?.global_role?.replace('_', ' ')}</p>
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="text-right hidden sm:block scale-in">
+                <p className="text-sm font-semibold text-slate-900">{profile?.full_name}</p>
+                <p className="text-xs text-slate-500 capitalize">
+                  {profile?.global_role?.replace('_', ' ')}
+                </p>
               </div>
               <button
                 onClick={signOut}
-                className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+                className="p-2 sm:p-2.5 text-slate-600 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all duration-300 hover:scale-110 active:scale-95"
                 title="Cerrar sesión"
               >
                 <LogOut className="w-5 h-5" />
               </button>
             </div>
           </div>
+
+          <div className="lg:hidden flex gap-2 pb-3 overflow-x-auto scrollbar-thin">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium whitespace-nowrap transition-all duration-300 ${
+                    isActive
+                      ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
+                      : 'bg-white text-slate-600 border border-slate-200'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </nav>
 
-      <main>
+      <main className="fade-in">
         {activeTab === 'orders' && <KanbanBoard />}
-        {activeTab === 'services' && <ServiceList />}
+        {activeTab === 'services' && (
+          <div className="p-4 sm:p-6 lg:p-8">
+            <ServiceList />
+          </div>
+        )}
         {activeTab === 'clinics' && (
-          <div className="p-6">
+          <div className="p-4 sm:p-6 lg:p-8">
             <ClinicsList />
           </div>
         )}
         {activeTab === 'payments' && (
-          <div className="p-6">
+          <div className="p-4 sm:p-6 lg:p-8">
             <PaymentsReport />
           </div>
         )}
         {activeTab === 'staff' && (
-          <div className="p-6">
+          <div className="p-4 sm:p-6 lg:p-8">
             <StaffList />
           </div>
         )}
         {activeTab === 'stats' && <DashboardStats />}
-        {activeTab === 'settings' && <LaboratorySettings />}
+        {activeTab === 'settings' && (
+          <div className="p-4 sm:p-6 lg:p-8">
+            <LaboratorySettings />
+          </div>
+        )}
       </main>
     </div>
   );
