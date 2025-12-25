@@ -2,11 +2,12 @@ import { AuthProvider, useAuth } from './modules/auth/AuthContext';
 import { LoginPage } from './modules/auth/LoginPage';
 import { RegisterPage } from './modules/auth/RegisterPage';
 import { Dashboard } from './modules/lab/Dashboard';
+import { ClinicDashboard } from './modules/clinic/ClinicDashboard';
 import { OrderForm } from './modules/public/OrderForm';
 import { Loader2 } from 'lucide-react';
 
 function AppContent() {
-  const { user, loading } = useAuth();
+  const { user, profile, loading } = useAuth();
   const isOrderForm = window.location.pathname === '/order';
   const isRegister = window.location.pathname === '/register';
 
@@ -31,6 +32,10 @@ function AppContent() {
 
   if (!user) {
     return <LoginPage />;
+  }
+
+  if (profile?.global_role === 'clinic_admin' || profile?.global_role === 'clinic_staff') {
+    return <ClinicDashboard />;
   }
 
   return <Dashboard />;
