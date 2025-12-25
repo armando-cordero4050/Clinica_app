@@ -60,7 +60,7 @@ export function StaffModal({ staff, onClose, onSuccess }: StaffModalProps) {
       if (isEditing) {
         const updateData: any = {
           full_name: formData.full_name,
-          role: formData.role,
+          global_role: formData.role,
           active: formData.active,
         };
 
