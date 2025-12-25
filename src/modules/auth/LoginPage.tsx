@@ -93,7 +93,13 @@ export function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-200">
+          <div className="mt-6 pt-6 border-t border-slate-200 space-y-3">
+            <p className="text-center text-slate-600 text-sm">
+              ¿No tienes una cuenta?{' '}
+              <a href="/register" className="text-blue-600 hover:text-blue-700 font-medium">
+                Registrar Clínica
+              </a>
+            </p>
             <a
               href="/order"
               className="block text-center text-sm text-blue-600 hover:text-blue-700 font-medium"

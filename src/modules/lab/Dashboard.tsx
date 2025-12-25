@@ -1,16 +1,17 @@
 import { useAuth } from '../auth/AuthContext';
-import { LogOut, Package, Settings, BarChart3, Wrench, Building2, Wallet } from 'lucide-react';
+import { LogOut, Package, Settings, BarChart3, Wrench, Building2, Wallet, Users } from 'lucide-react';
 import { KanbanBoard } from '../lab-orders/KanbanBoard';
 import { ServiceList } from './services/ServiceList';
 import { LaboratorySettings } from './settings/LaboratorySettings';
 import { DashboardStats } from './dashboard/DashboardStats';
 import { ClinicsList } from './clinics/ClinicsList';
 import { PaymentsReport } from '../payments/PaymentsReport';
+import { StaffList } from './staff/StaffList';
 import { useState } from 'react';
 
 export function Dashboard() {
   const { profile, signOut } = useAuth();
-  const [activeTab, setActiveTab] = useState<'orders' | 'services' | 'clinics' | 'payments' | 'stats' | 'settings'>('orders');
+  const [activeTab, setActiveTab] = useState<'orders' | 'services' | 'clinics' | 'payments' | 'staff' | 'stats' | 'settings'>('orders');
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -76,6 +77,17 @@ export function Dashboard() {
                   Pagos
                 </button>
                 <button
+                  onClick={() => setActiveTab('staff')}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                    activeTab === 'staff'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  <Users className="w-4 h-4" />
+                  Personal
+                </button>
+                <button
                   onClick={() => setActiveTab('stats')}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
                     activeTab === 'stats'
@@ -128,6 +140,11 @@ export function Dashboard() {
         {activeTab === 'payments' && (
           <div className="p-6">
             <PaymentsReport />
+          </div>
+        )}
+        {activeTab === 'staff' && (
+          <div className="p-6">
+            <StaffList />
           </div>
         )}
         {activeTab === 'stats' && <DashboardStats />}

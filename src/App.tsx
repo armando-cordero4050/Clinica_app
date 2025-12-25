@@ -1,5 +1,6 @@
 import { AuthProvider, useAuth } from './modules/auth/AuthContext';
 import { LoginPage } from './modules/auth/LoginPage';
+import { RegisterPage } from './modules/auth/RegisterPage';
 import { Dashboard } from './modules/lab/Dashboard';
 import { OrderForm } from './modules/public/OrderForm';
 import { Loader2 } from 'lucide-react';
@@ -7,9 +8,14 @@ import { Loader2 } from 'lucide-react';
 function AppContent() {
   const { user, loading } = useAuth();
   const isOrderForm = window.location.pathname === '/order';
+  const isRegister = window.location.pathname === '/register';
 
   if (isOrderForm) {
     return <OrderForm />;
+  }
+
+  if (isRegister) {
+    return <RegisterPage />;
   }
 
   if (loading) {
