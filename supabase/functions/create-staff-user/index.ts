@@ -42,7 +42,7 @@ Deno.serve(async (req: Request) => {
 
     const { data: requestingProfile } = await supabaseAdmin
       .from('profiles')
-      .select('role, clinic_id')
+      .select('global_role, clinic_id')
       .eq('id', requestingUser.id)
       .single();
 
@@ -50,8 +50,8 @@ Deno.serve(async (req: Request) => {
       throw new Error('Profile not found');
     }
 
-    const isLabAdmin = requestingProfile.role === 'lab_admin';
-    const isClinicAdmin = requestingProfile.role === 'clinic_admin';
+    const isLabAdmin = requestingProfile.global_role === 'lab_admin';
+    const isClinicAdmin = requestingProfile.global_role === 'clinic_admin';
 
     if (!isLabAdmin && !isClinicAdmin) {
       throw new Error('Insufficient permissions');
@@ -98,7 +98,7 @@ Deno.serve(async (req: Request) => {
         id: newUser.user.id,
         email,
         full_name,
-        role,
+        global_role: role,
         clinic_id: clinic_id || null,
         active: true,
       });
