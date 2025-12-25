@@ -16,9 +16,9 @@ export function LineChart({
 }: LineChartProps) {
   if (data.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
-        <p className="text-gray-500 text-center py-8">No hay datos disponibles</p>
+      <div className="glass-card rounded-2xl p-6 sm:p-8">
+        <h3 className="text-xl font-bold text-slate-900 mb-4">{title}</h3>
+        <p className="text-slate-500 text-center py-8">No hay datos disponibles</p>
       </div>
     );
   }
@@ -27,9 +27,9 @@ export function LineChart({
   const minValue = Math.min(...data.map((d) => d.value), 0);
   const range = maxValue - minValue || 1;
 
-  const width = 600;
-  const height = 200;
-  const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+  const width = 800;
+  const height = 300;
+  const padding = { top: 30, right: 30, bottom: 50, left: 70 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
@@ -42,7 +42,10 @@ export function LineChart({
   const pathD = points
     .map((point, index) => {
       if (index === 0) return `M ${point.x} ${point.y}`;
-      return `L ${point.x} ${point.y}`;
+      const prevPoint = points[index - 1];
+      const cpX1 = prevPoint.x + (point.x - prevPoint.x) / 3;
+      const cpX2 = prevPoint.x + (2 * (point.x - prevPoint.x)) / 3;
+      return `C ${cpX1} ${prevPoint.y}, ${cpX2} ${point.y}, ${point.x} ${point.y}`;
     })
     .join(' ');
 
@@ -50,26 +53,51 @@ export function LineChart({
     padding.top + chartHeight
   } L ${padding.left} ${padding.top + chartHeight} Z`;
 
-  const showEveryNth = Math.ceil(data.length / 7);
+  const showEveryNth = Math.ceil(data.length / 10);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
-      <div className="overflow-x-auto">
-        <svg width={width} height={height} className="w-full">
+    <div className="glass-card rounded-2xl p-6 sm:p-8 group hover:shadow-2xl transition-shadow duration-300">
+      <h3 className="text-xl font-bold text-slate-900 mb-6">{title}</h3>
+      <div className="overflow-x-auto scrollbar-thin">
+        <svg width={width} height={height} className="w-full min-w-[600px]">
           <defs>
             <linearGradient id="lineGradient" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor={color} stopOpacity="0.3" />
-              <stop offset="100%" stopColor={color} stopOpacity="0.05" />
+              <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+              <stop offset="100%" stopColor={color} stopOpacity="0.02" />
             </linearGradient>
+            <filter id="shadow">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.3" />
+            </filter>
           </defs>
 
-          <path d={areaD} fill="url(#lineGradient)" />
+          <path d={areaD} fill="url(#lineGradient)" className="fade-in" />
 
-          <path d={pathD} fill="none" stroke={color} strokeWidth="2" />
+          <path
+            d={pathD}
+            fill="none"
+            stroke={color}
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            filter="url(#shadow)"
+            className="fade-in"
+            style={{ animationDelay: '0.2s' }}
+          />
 
           {points.map((point, index) => (
-            <circle key={index} cx={point.x} cy={point.y} r="4" fill={color} className="hover:r-6 transition-all" />
+            <g key={index} className="scale-in" style={{ animationDelay: `${0.3 + index * 0.02}s` }}>
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r="6"
+                fill="white"
+                stroke={color}
+                strokeWidth="3"
+                className="hover:r-8 transition-all cursor-pointer"
+              >
+                <title>{valueFormatter(point.value)}</title>
+              </circle>
+            </g>
           ))}
 
           {data.map((item, index) => {
@@ -82,10 +110,11 @@ export function LineChart({
               <g key={index}>
                 <text
                   x={point.x}
-                  y={height - 10}
+                  y={height - 15}
                   textAnchor="middle"
-                  fontSize="11"
-                  fill="#6b7280"
+                  fontSize="12"
+                  fontWeight="500"
+                  fill="#64748b"
                 >
                   {label}
                 </text>
@@ -98,8 +127,17 @@ export function LineChart({
             y1={padding.top + chartHeight}
             x2={width - padding.right}
             y2={padding.top + chartHeight}
-            stroke="#e5e7eb"
-            strokeWidth="1"
+            stroke="#cbd5e1"
+            strokeWidth="2"
+          />
+
+          <line
+            x1={padding.left}
+            y1={padding.top}
+            x2={padding.left}
+            y2={padding.top + chartHeight}
+            stroke="#cbd5e1"
+            strokeWidth="2"
           />
 
           {[0, 0.25, 0.5, 0.75, 1].map((percent) => {
@@ -112,10 +150,18 @@ export function LineChart({
                   y1={y}
                   x2={width - padding.right}
                   y2={y}
-                  stroke="#f3f4f6"
+                  stroke="#e2e8f0"
                   strokeWidth="1"
+                  strokeDasharray="4 4"
                 />
-                <text x={padding.left - 10} y={y + 4} textAnchor="end" fontSize="11" fill="#9ca3af">
+                <text
+                  x={padding.left - 15}
+                  y={y + 5}
+                  textAnchor="end"
+                  fontSize="12"
+                  fontWeight="500"
+                  fill="#64748b"
+                >
                   {valueFormatter(value)}
                 </text>
               </g>
