@@ -53,8 +53,6 @@ export function useDashboardStats(currency: string = 'GTQ') {
       setLoading(true);
       setError(null);
 
-      const priceField = currency === 'USD' ? 'price_usd' : 'price';
-
       const { data: ordersByStatus, error: statusError } = await supabase
         .from('lab_orders')
         .select('status, price, price_usd')

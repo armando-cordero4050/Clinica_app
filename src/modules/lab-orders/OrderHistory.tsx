@@ -114,7 +114,7 @@ export function OrderHistory({ orderId }: OrderHistoryProps) {
         <div className="absolute top-0 bottom-0 left-4 w-0.5 bg-gray-200"></div>
 
         <div className="space-y-6">
-          {history.map((entry, index) => (
+          {history.map((entry) => (
             <div key={entry.id} className="relative pl-10">
               <div className={`absolute left-0 w-8 h-8 rounded-full flex items-center justify-center ${STATUS_COLORS[entry.status] || 'bg-gray-100'}`}>
                 <Clock className="w-4 h-4" />

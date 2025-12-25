@@ -6,7 +6,8 @@ type Profile = {
   id: string;
   full_name: string;
   email: string;
-  global_role: 'super_admin' | 'lab_admin' | 'lab_staff';
+  global_role: 'super_admin' | 'lab_admin' | 'lab_staff' | 'clinic_admin' | 'clinic_staff';
+  clinic_id: string | null;
   avatar_url: string | null;
   active: boolean;
 };

@@ -8,7 +8,7 @@ interface StaffMember {
   id: string;
   email: string;
   full_name: string;
-  role: string;
+  global_role: string;
   clinic_id: string | null;
   active: boolean;
   created_at: string;
@@ -25,8 +25,8 @@ export function StaffList() {
   const [showModal, setShowModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState<StaffMember | null>(null);
 
-  const isLabAdmin = profile?.role === 'lab_admin';
-  const isClinicAdmin = profile?.role === 'clinic_admin';
+  const isLabAdmin = profile?.global_role === 'lab_admin';
+  const isClinicAdmin = profile?.global_role === 'clinic_admin';
 
   useEffect(() => {
     loadStaff();
@@ -188,8 +188,8 @@ export function StaffList() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleBadgeColor(member.role)}`}>
-                        {getRoleLabel(member.role)}
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleBadgeColor(member.global_role)}`}>
+                        {getRoleLabel(member.global_role)}
                       </span>
                     </td>
                     {isLabAdmin && (

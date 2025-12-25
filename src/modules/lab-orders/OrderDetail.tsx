@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, User, Building2, Calendar, DollarSign, FileText, MessageSquare, Paperclip, Wallet, Plus } from 'lucide-react';
+import { X, User, Building2, Calendar, FileText, MessageSquare, Paperclip, Wallet, Plus } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { OrderHistory } from './OrderHistory';
 import { OrderNotes } from './OrderNotes';

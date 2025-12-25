@@ -22,13 +22,13 @@ export function StaffModal({ staff, onClose, onSuccess }: StaffModalProps) {
     email: staff?.email || '',
     password: '',
     full_name: staff?.full_name || '',
-    role: staff?.role || 'lab_staff',
+    role: staff?.global_role || 'lab_staff',
     clinic_id: staff?.clinic_id || '',
     active: staff?.active ?? true,
   });
 
-  const isLabAdmin = profile?.role === 'lab_admin';
-  const isClinicAdmin = profile?.role === 'clinic_admin';
+  const isLabAdmin = profile?.global_role === 'lab_admin';
+  const isClinicAdmin = profile?.global_role === 'clinic_admin';
   const isEditing = !!staff;
 
   useEffect(() => {
